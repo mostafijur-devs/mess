@@ -6,13 +6,13 @@ import '../models/member.dart';
 class MemberProvider extends ChangeNotifier {
   final MemberRepository _memberRepository;
 
-  List<Member> _members = [];
+  List<Member>? _members = [];
   bool _isLoading = false;
 
   MemberProvider({required MemberRepository memberRepository})
     : _memberRepository = memberRepository;
 
-  List<Member> get members => _members;
+  List<Member>? get members => _members;
 
   bool get isLoading => _isLoading;
 
