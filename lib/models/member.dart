@@ -1,5 +1,5 @@
 
-const String tableName = 'members';
+const String memberTableName = 'members';
 const String columnId = 'id';
 const String columnName = 'name';
 const String columnEmail = 'email';

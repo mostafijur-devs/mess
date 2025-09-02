@@ -6,9 +6,9 @@ import '../../provider/member_provider.dart';
 import '../../utils/common_helper_function.dart';
 
 class AddMemberScreen extends StatefulWidget {
-  AddMemberScreen({super.key, required this.isEdit, this.member});
-  bool isEdit;
-  Member? member;
+  const AddMemberScreen({super.key, required this.isEdit, this.member});
+  final bool isEdit;
+  final Member? member;
 
   @override
   State<AddMemberScreen> createState() => _AddMemberScreenState();

@@ -82,6 +82,7 @@ class _MemberView extends StatelessWidget {
                 Text(name?.toUpperCase() ?? ''),
                 Text(email ?? ''),
                 Text(phone ?? ''),
+                Text(member?.personalAmount.toString() ?? '${0}'),
               ],
             ),
           ),

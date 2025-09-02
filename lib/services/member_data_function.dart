@@ -7,7 +7,7 @@ import 'db_create.dart';
 class MemberDataFunction extends MemberRepository{
 
   static const String memberTableQuarry =
-  '''Create table $tableName($columnId integer primary key autoincrement,
+  '''Create table $memberTableName($columnId integer primary key autoincrement,
        $columnName text ,
         $columnEmail text , 
         $columnPassword text, $columnPhone text, $columnPersonalAmount integer) ''';
@@ -17,20 +17,20 @@ class MemberDataFunction extends MemberRepository{
   @override
   Future<void> addMember (Member member) async{
     Database? db = await dbCreate.database;
-    db!.insert(tableName, member.toJson());
+    db!.insert(memberTableName, member.toJson());
 
   }
 
   @override
   Future<void> deleteMember(int id) async {
    Database? db = await dbCreate.database;
-   db!.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
+   db!.delete(memberTableName, where: '$columnId = ?', whereArgs: [id]);
   }
 
   @override
   Future<List<Member>> getMember() async{
     Database? db = await dbCreate.database;
-    List<Map<String, dynamic>> maps = await db!.query(tableName);
+    List<Map<String, dynamic>> maps = await db!.query(memberTableName);
     return List.generate(maps.length, (index) => Member.fromJson(maps[index]),);
 
   }
@@ -38,7 +38,7 @@ class MemberDataFunction extends MemberRepository{
   @override
   Future<void> updateMember(Member member) async{
     Database? db =await dbCreate.database;
-    db!.update(tableName, member.toJson(),where: '$columnId = ?', whereArgs: [member.id]);
+    db!.update(memberTableName, member.toJson(),where: '$columnId = ?', whereArgs: [member.id]);
   }
  //  // Database? db = await instance.database;
  //

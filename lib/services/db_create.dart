@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/expanse.dart';
 import '../models/member.dart';
+import 'expanse_data_function.dart';
 import 'member_data_function.dart';
 
 class DbCreate {
@@ -33,7 +34,7 @@ class DbCreate {
       version: 1,
       onCreate: (db, version) {
         db.execute(MemberDataFunction.memberTableQuarry);
-        db.execute(expanseTableQuarry);
+        db.execute(ExpanseDataFunction.expanseTableQuarry);
       },
       onUpgrade: (db, oldVersion, newVersion) {},
     );
@@ -42,13 +43,7 @@ class DbCreate {
 
 
 
-  static const String expanseTableQuarry =
-      '''Create table $expanseTableName($expanseColumnId integer primary key autoincrement,
-  $expanseColumnMemberId integer,
-  $expanseColumnAmount integer,
-  $expanseColumnCategory text,
-  $expanseColumnDescription text
-  )''';
+
   //
   // getMember() async {
   //   Database? db = await instance.database;
