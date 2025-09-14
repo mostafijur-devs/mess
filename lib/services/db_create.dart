@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../models/expanse.dart';
-import '../models/member.dart';
 import 'expanse_data_function.dart';
 import 'member_data_function.dart';
 
@@ -41,12 +38,4 @@ class DbCreate {
     return myDb;
   }
 
-
-
-
-  //
-  // getMember() async {
-  //   Database? db = await instance.database;
-  //   List<Map<String, dynamic>> maps = await db!.query(tableName);
-  // }
 }

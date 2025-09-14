@@ -5,6 +5,7 @@ const String expanseColumnMemberId = 'member_id';
 const String expanseColumnAmount = 'amount';
 const String expanseColumnCategory = 'category';
 const String expanseColumnDescription = 'description';
+const String expanseColumnDateTime = 'dateTime';
 
 class Expanse {
 
@@ -13,8 +14,9 @@ class Expanse {
   int? amount;
   String? category;
   String? description;
+  DateTime? dateTime;
 
-  Expanse({this.id, this.memberId, this.amount, this.category, this.description});
+  Expanse({this.id, this.memberId, this.amount, this.category, this.description, this.dateTime});
 
   factory Expanse.fromJson(Map<String, dynamic> json) {
     return Expanse(
@@ -23,6 +25,7 @@ class Expanse {
       amount: json[expanseColumnAmount],
       category: json[expanseColumnCategory],
       description: json[expanseColumnDescription],
+      dateTime: DateTime.parse(json[expanseColumnDateTime])
 
     );
 
@@ -34,6 +37,7 @@ class Expanse {
       expanseColumnAmount: amount,
       expanseColumnCategory: category,
       expanseColumnDescription: description,
+      expanseColumnDateTime: dateTime?.toIso8601String()
     };
   }
 

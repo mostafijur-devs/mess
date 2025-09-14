@@ -6,5 +6,7 @@ abstract class ExpanseRepository {
   Future<void>addExpanse(Expanse expanse);
   Future<void>deleteExpanse(int id);
   Future<void>updateExpanse(Expanse expanse);
+  Future<List<Expanse>> getExpansesByDate(String date);
+  Future<List<Expanse>> getExpansesByMonth(int year, int month);
 
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:mass/screen/member/add_member_screen.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +17,7 @@ class MemberScreen extends StatefulWidget {
 class _MemberScreenState extends State<MemberScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+ 
     super.initState();
     context.read<MemberProvider>().fetchMember();
   }
@@ -29,7 +31,7 @@ class _MemberScreenState extends State<MemberScreen> {
           List<Member>? member = memberProvider.members;
           return ListView.builder(
             itemBuilder: (context, index) {
-              Member singleMember = member?[index] ?? Member();
+              Member singleMember = member[index];
               return _MemberView(
                 member: singleMember,
                 name: singleMember.name,
@@ -37,7 +39,7 @@ class _MemberScreenState extends State<MemberScreen> {
                 phone: singleMember.phone,
               );
             },
-            itemCount: member?.length ?? 0,
+            itemCount: member.length ,
           );
         },
       ),
@@ -69,7 +71,7 @@ class _MemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+ 
     return Card(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

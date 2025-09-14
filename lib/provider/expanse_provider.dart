@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:mass/models/expanse.dart';
-
 import '../repository/expanse_repository.dart';
 
 class ExpanseProvider extends ChangeNotifier{
-  final ExpanseRepository _expanseRepository;
+  final ExpanseRepository _expanseRepository ;
    bool _isLoading = false;
    List<Expanse> _expanseList = [];
 
@@ -27,10 +26,35 @@ class ExpanseProvider extends ChangeNotifier{
 
   }
 
+  Future<void> fetchExpanseByDate(String date) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      _expanseList = await _expanseRepository.getExpansesByDate(date);
+      _isLoading = false;
+      notifyListeners();
+    } catch (error) {
+      throw 'error';
+    }
+  }
+
+  Future<void> fetchExpanseByMonth(int year, int month) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      _expanseList = await _expanseRepository.getExpansesByMonth(year, month);
+      _isLoading = false;
+      notifyListeners();
+    } catch (error) {
+      throw 'error';
+    }
+  }
+
   addExpanse( Expanse expanse) async{
    await _expanseRepository.addExpanse(expanse);
    fetchExpanseData();
   }
+  
 
   updateExpanse( Expanse expanse)async{
    await _expanseRepository.updateExpanse(expanse);
