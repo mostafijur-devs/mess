@@ -18,12 +18,19 @@ class _ExpansePageState extends State<ExpansePage> {
   int? _selectedYear;
   int? _selectedMonth;
 
+  String formattedDate =
+      "${DateTime.now().year.toString().padLeft(4, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}";
+
+
   @override
   void initState() {
     super.initState();
     // শুরুতে সব ডেটা লোড
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ExpanseProvider>(context, listen: false).fetchExpanseData();
+      context.read<MemberProvider>().fetchMember();
+      context.read<ExpanseProvider>().fetchExpanseByDate(formattedDate);
+
+      // Provider.of<ExpanseProvider>(context, listen: false).fetchExpanseByDate(DateTime.now().toIso8601String());
     });
   }
 
@@ -55,7 +62,8 @@ class _ExpansePageState extends State<ExpansePage> {
                 _selectedYear = null;
                 _selectedMonth = null;
               });
-              expanseProvider.fetchExpanseData();
+              context.read<ExpanseProvider>().fetchExpanseByDate(formattedDate);
+
             },
           ),
         ],
@@ -135,6 +143,8 @@ class _ExpansePageState extends State<ExpansePage> {
               padding: const EdgeInsets.all(8.0),
               child: Text('সিলেক্টেড মাস: $_selectedYear-$_selectedMonth'),
             ),
+
+          Text('This is your current Day Expanse ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
           Expanded(
             child: expanseProvider.isLoading
                 ? const Center(child: CircularProgressIndicator())
