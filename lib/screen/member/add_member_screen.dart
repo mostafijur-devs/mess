@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mass/models/member.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +10,7 @@ import '../../utils/common_helper_function.dart';
 
 class AddMemberScreen extends StatefulWidget {
   const AddMemberScreen({super.key, required this.isEdit, this.member});
+
   final bool isEdit;
   final Member? member;
 
@@ -22,6 +26,11 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   final TextEditingController _phoneController = TextEditingController();
 
   // final TextEditingController _passwordController = TextEditingController();
+
+  File? _imagePath;
+
+   bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -29,8 +38,46 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       _nameController.text = widget.member!.name!;
       _emailController.text = widget.member!.email!;
       _phoneController.text = widget.member!.phone!;
+      _imagePath = widget.member?.memberImageUrl != null ?File(widget.member!.memberImageUrl!): null ;
     }
   }
+
+  Future<void> _imagePickByCamera() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imagePath = File(pickedFile.path);
+      });
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _imagePickByGallery() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imagePath = File(pickedFile.path);
+      });
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +95,37 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
             builder: (context) {
               return Column(
                 children: [
+                  PopupMenuButton(
+                    icon:_isLoading? CircularProgressIndicator():_imagePath != null ?Image.file(_imagePath!,height: 100,width: 100,): Icon(Icons.person, size: 100),
+
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(
+                          child: Text('Camera'),
+                          onTap: () async{
+                            Future.delayed(Duration.zero, () async{
+
+                              await _imagePickByCamera();
+
+
+                            },);
+
+                          },
+                        ),
+                        PopupMenuItem(
+                          child:  Text('Gallery'),
+
+                          onTap: () async{
+                      Future.delayed(Duration.zero, () async{
+                      await _imagePickByGallery();
+
+                      },);
+
+                      },
+                        ),
+                      ];
+                    },
+                  ),
                   TextFormField(
                     controller: _nameController,
                     keyboardType: TextInputType.name,
@@ -140,6 +218,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           name: _nameController.text,
                           email: _emailController.text,
                           phone: _phoneController.text,
+                          memberImageUrl: _imagePath!.path
                         );
                         if (widget.isEdit) {
                           member.id = widget.member!.id;
@@ -167,6 +246,17 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         ? const Text('Edit Member')
                         : const Text('Add Member'),
                   ),
+
+                  SizedBox(height: 20),
+
+                  _imagePath != null
+                      ? Image.file(
+                          _imagePath!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        )
+                      : Text(''),
                 ],
               );
             },
